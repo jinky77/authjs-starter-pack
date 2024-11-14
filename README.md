@@ -1,31 +1,77 @@
-# Authentication
+# AuthJS Starter Pack
 
-This is an example using NextAuth.js for authentication.
+This project provides a starter pack for building web applications with AuthJS, Prisma, bun and the shadcn UI library.
 
-## Deploy your own
+## Features
 
-Deploy the example using [Vercel](https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example):
+- **Authentication**: Auth.js. Logic for `Credentials` (email/password) is NOT implemented.
+- **Database**: Prisma ORM.
+- **UI Library**: shadcn UI components.
+- **Routing**: Next.js file-based routing.
+- **Styling**: Tailwind CSS.
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/vercel/next.js/tree/canary/examples/auth&project-name=auth&repository-name=auth&env=AUTH_GITHUB_ID,AUTH_GITHUB_SECRET,AUTH_SECRET)
+## Getting Started
 
-## How to use
+### Prerequisites
 
-Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [npm](https://docs.npmjs.com/cli/init), [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/), [pnpm](https://pnpm.io), or [Bun](https://bun.sh/docs/cli/bunx) to bootstrap the example:
+- [Node.js](https://nodejs.org/) version 14 or higher
+- [bun](https://bun.sh/) package manager
 
-```bash
-npx create-next-app --example auth auth-app
-```
+### Installation
 
-```bash
-yarn create next-app --example auth auth-app
-```
-
-```bash
-pnpm create next-app --example auth auth-app
-```
+1. Clone the repository:
 
 ```bash
-bunx create-next-app --example auth auth-app
+git clone https://github.com/jinky77/authjs-starter-pack.git
 ```
 
-Deploy it to the cloud with [Vercel](https://vercel.com/new?utm_source=github&utm_medium=readme&utm_campaign=next-example) ([Documentation](https://nextjs.org/docs/deployment)).
+2. Install dependencies:
+
+```bash
+cd authjs-starter-pack
+bun install
+```
+
+3. Set up the environment variables:
+
+```bash
+cp .env.example .env.local
+```
+
+Then, update the `.env` file with your specific authentication provider credentials. See [Auth.js installation guide](https://authjs.dev/getting-started) for reference.
+
+4. Set up the database:
+
+For a local database, install [Docker](https://docs.docker.com/engine/install/). For hosted Postgres in Next.js, see: [Vercel Postgres](https://vercel.com/docs/storage/vercel-postgres).
+
+Assuming you're setting up a local database:
+
+```bash
+docker run --name YOUR_DB_NAME -p YOUR_DB_PORT:5432 -e POSTGRES_PASSWORD=YOUR_DB_PASSWORD -d postgres:latest
+```
+
+Update your `.env.local` file with the correct `DATABASE_URL` variable.
+
+5. Migrate database schema with Prisma:
+
+```bash
+bunx prisma migrate dev --name init
+```
+
+Regenerate Prisma Client:
+
+```bash
+bunx prisma generate
+```
+
+6. Start the development server:
+
+```bash
+bun dev
+```
+
+The application will be available at `http://localhost:3000`.
+
+### License
+
+This project is licensed under the [MIT License](LICENSE).
