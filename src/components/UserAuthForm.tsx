@@ -1,5 +1,5 @@
 import * as React from "react";
-
+import { use } from "react";
 import { redirect } from "next/navigation";
 import { signIn, providerMap } from "@/auth";
 import { AuthError } from "next-auth";
@@ -14,20 +14,22 @@ import { siGithub, siGoogle } from "simple-icons";
 const SIGNIN_ERROR_URL = "/not-found";
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {
-  searchParams: any;
+  searchParams: Promise<{ callbackUrl: string | undefined }>;
 }
 
 export function UserAuthForm({ searchParams, className, ...props }: UserAuthFormProps) {
+  const params = use(searchParams);
+
   return (
     <div className={cn("grid gap-6", className)} {...props}>
-      <form
+      {/* <form
         action={async (formData) => {
           "use server";
           try {
             await signIn("credentials", {
               ...Object.fromEntries(formData),
               redirect: true,
-              callbackUrl: searchParams?.callbackUrl ?? "/",
+              callbackUrl: params?.callbackUrl ?? "/",
             });
           } catch (error) {
             if (error instanceof AuthError) {
@@ -42,7 +44,7 @@ export function UserAuthForm({ searchParams, className, ...props }: UserAuthForm
             <Label className="sr-only" htmlFor="email">
               E-mail
             </Label>
-            <Input id="email" placeholder="name@example.com" type="email" autoCapitalize="none" autoComplete="email" autoCorrect="off" />
+            <Input id="email" name="email" placeholder="name@example.com" type="email" autoCapitalize="none" autoComplete="email" autoCorrect="off" />
           </div>
           <div className="grid gap-1">
             <Label className="sr-only" htmlFor="password">
@@ -50,6 +52,7 @@ export function UserAuthForm({ searchParams, className, ...props }: UserAuthForm
             </Label>
             <Input
               id="password"
+              name="password"
               placeholder="•••••••••••••••••••••"
               type="password"
               autoCapitalize="none"
@@ -59,15 +62,15 @@ export function UserAuthForm({ searchParams, className, ...props }: UserAuthForm
           </div>
           <Button className="font-medium">Connexion</Button>
         </div>
-      </form>
-      <div className="relative">
+      </form> */}
+      {/* <div className="relative">
         <div className="absolute inset-0 flex items-center">
           <span className="w-full border-t" />
         </div>
         <div className="relative flex justify-center text-xs uppercase">
           <span className="bg-background px-2 text-muted-foreground">Ou continuez avec</span>
         </div>
-      </div>
+      </div> */}
       <div className="grid gap-2">
         {Object.values(providerMap).map((provider) => (
           <form
@@ -77,7 +80,7 @@ export function UserAuthForm({ searchParams, className, ...props }: UserAuthForm
               try {
                 await signIn(provider.id, {
                   redirect: true,
-                  callbackUrl: searchParams?.callbackUrl ?? "/",
+                  callbackUrl: params?.callbackUrl ?? "/",
                 });
               } catch (error) {
                 if (error instanceof AuthError) {

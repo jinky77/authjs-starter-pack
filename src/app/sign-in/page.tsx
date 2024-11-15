@@ -5,11 +5,11 @@ import Link from "next/link";
 
 import { UserAuthForm } from "@/src/components/UserAuthForm";
 
-export default async function SignInPage({ searchParams }: { searchParams: { callbackUrl: string | undefined } }) {
+export default async function SignInPage({ searchParams }: { searchParams: Promise<{ callbackUrl: string | undefined }> }) {
   const session = await auth();
 
   if (session) {
-    redirect(searchParams?.callbackUrl ?? "/");
+    redirect((await searchParams)?.callbackUrl ?? "/");
   }
 
   return (
@@ -43,7 +43,7 @@ export default async function SignInPage({ searchParams }: { searchParams: { cal
           <div className="mx-auto flex flex-col justify-center space-y-6 w-[350px]">
             <div className="flex flex-col space-y-2 text-center">
               <h1 className="text-2xl font-semibold tracking-tight">Connexion</h1>
-              <p className="text-sm text-muted-foreground">Saisissez votre e-mail pour vous connecter</p>
+              <p className="text-sm text-muted-foreground">Sélectionner une option pour vous connecter</p>
             </div>
             <UserAuthForm searchParams={searchParams} />
             <p className="px-8 text-center text-sm text-muted-foreground">
