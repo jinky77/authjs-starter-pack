@@ -1,4 +1,4 @@
-# AuthJS Starter Pack
+# SaaS Template
 
 This project provides a starter pack for building web applications with AuthJS, Prisma, bun and the shadcn UI library.
 
